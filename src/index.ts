@@ -1,3 +1,31 @@
-import { Observable } from "rxjs";
+import { count, Observable, Observer, Subject } from "rxjs";
 
-const obs$ = 
+const observer: Observer<any> = {
+  next: (value) => console.log("next:", value),
+  error: (error) => console.warn("error:", error),
+  complete: () => console.log("complete:"),
+};
+
+const interval$ = new Observable((subs) => {
+  const intervalId = setInterval(() => {
+    subs.next(Math.random());
+  }, 1000);
+
+  return () => clearInterval(intervalId);
+});
+
+/**
+ * 1 - Casteo múltiple (muchas susbcripciones)
+ * 2 - tambien es un susbcriber
+ * 3 - Next, Error, Complete
+ */
+
+const subject$ = new Subject();
+
+interval$.subscribe(subject$);
+
+// const subs1 = interval$.subscribe((rnd) => console.log("1:", rnd));
+// const subs2 = interval$.subscribe((rnd) => console.log("2:", rnd));
+
+const subs1 = subject$.subscribe((rnd) => console.log("1:", rnd));
+const subs2 = subject$.subscribe((rnd) => console.log("2:", rnd));

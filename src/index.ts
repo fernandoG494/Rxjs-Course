@@ -1,11 +1,13 @@
 import { count, Observable, Observer, Subject } from "rxjs";
 
+// OBSERVER
 const observer: Observer<any> = {
   next: (value) => console.log("next:", value),
   error: (error) => console.warn("error:", error),
   complete: () => console.log("complete:"),
 };
 
+// OBSERVABLE
 const interval$ = new Observable((subs) => {
   const intervalId = setInterval(() => {
     subs.next(Math.random());
@@ -29,3 +31,7 @@ interval$.subscribe(subject$);
 
 const subs1 = subject$.subscribe((rnd) => console.log("1:", rnd));
 const subs2 = subject$.subscribe((rnd) => console.log("2:", rnd));
+
+setTimeout(() => {
+  subject$.next(10);
+}, 3500);

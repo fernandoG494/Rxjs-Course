@@ -13,6 +13,7 @@ const source$ = from(fetch('https://api.github.com/users/klerith'))
 
 // source$.subscribe(observer)
 
+
 source$.subscribe(async resp => {
     console.log(resp)
     const dataResp = await resp.json();

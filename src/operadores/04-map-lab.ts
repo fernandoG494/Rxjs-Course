@@ -1,8 +1,7 @@
-import { fromEvent } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { fromEvent } from "rxjs";
+import { map, tap } from "rxjs/operators";
 
-
-const texto = document.createElement('div');
+const texto = document.createElement("div");
 texto.innerHTML = `
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin, sem eget ullamcorper sodales, erat ligula gravida est, a porta nibh libero et odio. Quisque vitae congue elit, vitae blandit est. Donec cursus sodales volutpat. Maecenas lorem nisl, faucibus eu pretium quis, pretium nec nunc. Ut accumsan dolor in urna tincidunt congue. Nulla facilisi. Phasellus congue dignissim leo, eget mattis urna. Integer tempus luctus risus gravida congue. Vivamus placerat ipsum ut leo blandit ultricies. Pellentesque sollicitudin quam odio, a sagittis justo accumsan sed. Maecenas mollis dolor a cursus ullamcorper. Vestibulum neque nisl, efficitur id ligula aliquam, facilisis condimentum augue. Sed ultrices, libero at posuere mattis, nunc ex mattis tortor, a aliquet quam ex ac libero.
 <br/><br/>
@@ -15,38 +14,31 @@ Fusce fringilla nec massa vel molestie. Nam a turpis porttitor, bibendum nisi eu
 Sed eget quam enim. Curabitur pretium mi vel fermentum pretium. Nullam non felis quis magna blandit scelerisque cursus eu ipsum. Maecenas facilisis bibendum tempus. Nam scelerisque euismod ex in ultricies. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean ac mollis felis, a posuere justo. Nam imperdiet sem velit, id sagittis nibh blandit non. Nunc non nibh placerat, varius erat sed, pharetra ligula. Donec eget tempor elit. Aliquam orci ex, mattis ac tellus at, tincidunt egestas nisl.
 `;
 
-const body = document.querySelector('body');
-body.append( texto );
+const body = document.querySelector("body");
+body.append(texto);
 
-const progressBar = document.createElement('div');
-progressBar.setAttribute('class', 'progress-bar');
+const progressBar = document.createElement("div");
+progressBar.setAttribute("class", "progress-bar");
 body.append(progressBar);
 
 // funcion que haga el calculo
-const calcularProcentajeScroll = ( event ) => {
-    
-    const {
-        scrollTop,
-        scrollHeight,
-        clientHeight
-    } = event.target.documentElement;
+const calcularProcentajeScroll = (event) => {
+  const { scrollTop, scrollHeight, clientHeight } =
+    event.target.documentElement;
 
-    return ( scrollTop / ( scrollHeight - clientHeight ) ) * 100;
-}
+  return (scrollTop / (scrollHeight - clientHeight)) * 100;
+};
 
 // Streams
-const scroll$ = fromEvent( document, 'scroll');
+const scroll$ = fromEvent(document, "scroll");
 // scroll$.subscribe( console.log );
 
 const progress$ = scroll$.pipe(
-    // map( event => calcularProcentajeScroll(event) )
-    map( calcularProcentajeScroll ),
-    tap( console.log )
+  // map( event => calcularProcentajeScroll(event) )
+  map(calcularProcentajeScroll),
+  tap(console.log)
 );
 
-
-progress$.subscribe( porcentaje => {
-
-    progressBar.style.width = `${ porcentaje }%`;
-
+progress$.subscribe((porcentaje) => {
+  progressBar.style.width = `${porcentaje}%`;
 });
